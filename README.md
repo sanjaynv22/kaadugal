@@ -1,40 +1,102 @@
 # KAADUGAL
 
-A multi-category shopping marketplace built with Angular standalone components, signals, Angular Router and Tailwind CSS. There is no backend: the catalogue is sample data, and the cart, wishlist, account, addresses and orders persist in LocalStorage.
+KAADUGAL is a multi-category online marketplace built with Angular and Tailwind CSS. Shoppers can browse ten categories, search, filter, add to cart and wishlist, and check out. A separate admin panel manages products, stock, orders and customers.
 
-## Run it
+*Kaadugal* means "forests" in Tamil. Like a forest, the store has a bit of everything in one place.
 
-```
+> **Demo project.** There is no backend. Products are sample data, and accounts, carts, orders and admin changes are saved in the browser's LocalStorage. Payments are mock, and no goods are shipped.
+
+## Features
+
+### Store
+- Home page with an offers carousel, shop by category, today's deals with a countdown, best sellers, trending, recommendations, recently viewed and featured brands
+- Ten categories: Electronics, Mobiles & Accessories, Fashion, Home & Kitchen, Beauty & Personal Care, Books, Sports & Fitness, Grocery, Toys & Games and Furniture
+- Search with suggestions and a category dropdown
+- Product listing with filters for category, price, brand and rating, sorting by popularity, price, newest and rating, and pagination
+- Product page with an image gallery, price and discount, stock status, specifications, reviews and related products
+- Cart with quantity controls, a price breakdown and free delivery from ₹499
+- Wishlist
+- Checkout with saved addresses and UPI, card, net banking or cash on delivery (mock payment)
+- Customer account with profile, order history, order cancellation, saved addresses and wishlist
+- Delivery location selector, plus help, returns, privacy, terms and contact pages
+- Responsive layouts for phone, tablet and desktop
+
+### Admin panel
+- Separate admin sign-in. Customers and guests can't open admin pages.
+- Dashboard with sales, orders, customers, product count, recent orders and low-stock items
+- Add, edit and delete products, and change prices, MRP, stock, images, labels and deals
+- View all orders and set each one to Confirmed, Shipped, Delivered or Cancelled
+- View customers with their order counts and total spent
+- Placing an order reduces stock, and cancelling one puts the stock back
+
+## Tech stack
+
+- Angular 22 with standalone components, signals and lazy-loaded routes
+- TypeScript
+- Tailwind CSS 4
+- Angular Router
+- LocalStorage for persistence
+- Docker with nginx for serving the production build
+
+## Getting started
+
+You need Node.js 22.22 or newer.
+
+```bash
 npm install
 npm start
 ```
 
-Then open http://localhost:4200. To sign in quickly, use **Continue with the demo account** on the sign-in page. `npm run build` creates the production build in `dist/kaadugal`. When hosting it, send unknown paths to `index.html` so deep links work.
+Open http://localhost:4200.
+
+On Windows PowerShell, if you see `running scripts is disabled`, use `npm.cmd install` and `npm.cmd start` instead.
+
+### Production build
+
+```bash
+npm run build
+```
+
+The output is in `dist/kaadugal/browser`. When hosting it yourself, send unknown paths to `index.html` so links like `/product/...` work after a refresh.
 
 ## Run with Docker
 
-With Docker Desktop running, from this folder:
+With Docker Desktop running:
 
-```
+```bash
 docker compose up -d --build
 ```
 
-Then open http://localhost:8080. Stop it with `docker compose down`.
+Open http://localhost:8080. To stop it, run `docker compose down`.
 
-## Admin panel
+## Demo accounts
 
-Open http://localhost:4200/admin and sign in with `admin@kaadugal.example` and `Admin@123`. From there you can manage products, stock, prices, orders and customers.
+| Account | How to sign in |
+|---|---|
+| Customer | Select **Continue with the demo account** on the sign-in page, or create an account |
+| Admin | Go to `/admin` and sign in with `admin@kaadugal.example` / `Admin@123` |
 
-The admin panel shares this browser's LocalStorage with the store. Changes don't reach other browsers or devices, and the sign-in check runs in the browser, so it isn't real security. Add a backend and server-side checks before going live.
+## Project structure
 
-## Where things live
+```
+src/app/
+  components/   Header, footer, product card, product rail and shared UI
+  pages/        Store, account and admin pages
+  services/     Catalogue, cart, wishlist, auth, orders, admin and storage
+  data/         Sample products and categories
+public/catalog/ Book cover and toy illustrations
+Dockerfile, compose.yaml, nginx.conf   Container setup
+```
 
-- `src/app/pages`: routed pages
-- `src/app/components`: header, footer, product card, rail and shared UI
-- `src/app/services`: catalogue, cart, wishlist, auth, orders, shopper context
-- `src/app/data`: sample products and categories
-- `public/catalog`: book cover and toy illustrations
+## Limitations
 
-## Sample content
+- **One browser only:** all data lives in LocalStorage, so orders and admin changes don't reach other browsers or devices.
+- **Not real security:** the admin sign-in check runs in the browser, and the demo password is in the code.
+- **Mock payments:** no payment is taken.
+- **Online photos:** most product photos load from the DummyJSON CDN and need an internet connection.
 
-Most product data and photos come from the [DummyJSON](https://dummyjson.com) demo catalogue, with photos loaded from its CDN. They're for demonstration only; replace them, the real brand names and the placeholder policy pages before a real launch. Prices are sample conversions to rupees.
+Before going live you would need a backend and database, server-side authentication, and a real payment gateway.
+
+## Credits
+
+Most sample product data and photos come from the [DummyJSON](https://dummyjson.com) demo catalogue. Brand names belong to their owners and are used only as sample data. The book covers and toy illustrations were drawn for this project.
